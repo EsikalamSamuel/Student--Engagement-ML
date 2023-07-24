@@ -6,6 +6,7 @@ import os
 
 # Load the dataset
 df = pd.read_csv('student-engagement/Dataset/studentInfoProcessed.csv')
+#print(df.count())
 del df['id_student']
 
 # Perform detailed distributive analysis
@@ -37,13 +38,33 @@ plt.title('Distribution of date_unregistration')
 plt.savefig("Distribution of date_unregistration.png")
 plt.close()
 
-# Histogram for highest_education
+# Histogram for date_registration
 plt.figure(figsize=(6, 4))
+df['disability'].hist(rwidth=0.8, color='lightcoral')
+plt.xlabel('disability')
+plt.ylabel('Frequency')
+plt.title('Distribution of disability')
+plt.savefig('Distribution of disability.png')
+plt.close()
+
+# Histogram for date_unregistration
+plt.figure(figsize=(6, 4))
+df['age_band'].hist(rwidth=0.8, color='orange')
+plt.xlabel('age_band')
+plt.ylabel('Frequency')
+plt.title('Distribution of age_band')
+plt.savefig("Distribution of age_band.png")
+plt.close()
+
+# Histogram for highest_education
+plt.figure(figsize=(10, 10))
 df['highest_education'].hist(rwidth=0.8, color='purple')
 plt.xlabel('highest_education')
+#plt.xticks(rotation=30)
 plt.ylabel('Frequency')
 plt.title('Distribution of highest_education')
 plt.savefig("Distribution of highest_education.png")
+
 plt.close()
 
 # Histogram for num_of_prev_attempts
@@ -77,11 +98,11 @@ for column in df.columns:
 std_values = df.std()
 
 # Plotting the standard deviation
-plt.figure(figsize=(10, 5))
+plt.figure(figsize=(15, 6))
 sns.barplot(x=std_values.index, y=std_values.values)
-plt.xticks(rotation=90)
+#plt.xticks(rotation=90)
 plt.xlabel('Variables')
-plt.ylabel('Standard Deviation')
+plt.ylabel('Standard Deviation')  
 plt.title('Standard Deviation of Variables')
 plt.savefig('Standard Deviation of Variables.png')
 plt.close()
@@ -90,9 +111,9 @@ plt.close()
 mean_values = df.mean()
 
 # Plotting the mean
-plt.figure(figsize=(10, 5))
+plt.figure(figsize=(15, 5))
 sns.barplot(x=mean_values.index, y=mean_values.values)
-plt.xticks(rotation=90)
+#plt.xticks(rotation=90)
 plt.xlabel('Variables')
 plt.ylabel('Mean')
 plt.title('Mean of Variables')
@@ -103,9 +124,9 @@ plt.close()
 mode_values = df.mode().iloc[0]
 
 # Plotting the mode
-plt.figure(figsize=(10, 5))
+plt.figure(figsize=(15, 5))
 sns.barplot(x=mode_values.index, y=mode_values.values)
-plt.xticks(rotation=90)
+#plt.xticks(rotation=90)
 plt.xlabel('Variables')
 plt.ylabel('Mode')
 plt.title('Mode of Variables')
@@ -121,20 +142,3 @@ sns.heatmap(correlation_matrix, annot=True, cmap="coolwarm", fmt=".2f")
 plt.title("Correlation Matrix")
 plt.savefig('Correlation Matrix.png')
 plt.close()
-
-num_parts = 2
-
-for i in range(num_parts):
-    df = pd.read_csv(f'student-engagement/Dataset/studentVleProcessed{chr(65+i)}.csv')
-    
-    del df['id_student']
-    # Group the data by final_result and calculate the mean score
-    mean_score_by_result = df.groupby('final_result')['score'].mean()
-
-    # Create a bar plot to visualize the mean scores by final_result
-    mean_score_by_result.plot(kind='bar', figsize=(8, 6))
-    plt.xlabel('Final Result')
-    plt.ylabel('Mean Score')
-    plt.title('Mean Score by Final Result')
-    plt.savefig(f'Mean Score by Final Result{chr(65+i)}.png')
-    plt.close()
